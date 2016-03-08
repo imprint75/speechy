@@ -15,13 +15,11 @@
         - python3-setuptools
         - python3.4-venv
         - python3-dev
+        - python3-pip
         - build-essential
         - libjack-jackd2-dev
         - portaudio19-dev
-
-    - name: install pip
-      sudo: yes
-      easy_install: name=pip state=latest
+        - git
 
     - name: Install pip requirements
       pip:
