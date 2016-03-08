@@ -1,0 +1,29 @@
+########################################
+##### upstart_virtualenv_test.conf #####
+##### install in /etc/init         #####
+########################################
+
+description "Testing virtualenv and upstart setup"
+
+env PYTHON_HOME=/srv/speechy_env
+
+start on filesystem and net-device-up IFACE!=lo
+# start on runlevel [2345]
+stop on runlevel [!2345]
+
+pre-start script
+  logger "pre-start for speechy"
+end script
+
+post-start script
+  logger "post-start for speechy"
+end script
+
+respawn
+respawn limit 10 5
+
+#setuid <username>
+#setgid <username>
+
+chdir /srv/speechy
+exec $PYTHON_HOME/bin/python app.py >> /var/log/upstart/speechy.log 2>&1
