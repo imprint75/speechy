@@ -94,6 +94,11 @@ def install_python():
     sudo('apt-get install build-essential')
 
 
+def install_python_audio():
+    # needed to pip install pyaudio
+    sudo('apt-get install libjack-jackd2-dev portaudio19-dev')
+
+
 def install_git():
     run('sudo apt-get install git')
 
