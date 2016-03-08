@@ -20,6 +20,7 @@
         - libjack-jackd2-dev
         - portaudio19-dev
         - git
+        - espeak
 
     - name: Install pip requirements
       pip:
