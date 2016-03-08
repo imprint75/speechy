@@ -8,6 +8,25 @@
       notify:
         - start nginx
 
+    - name: install python dev
+      sudo: yes
+      apt: pkg={{ item }} state=present
+      with_items:
+        - python3-setuptools
+        - python3.4-venv
+        - python3-dev
+        - build-essential
+
+    - name: install pip
+      sudo: yes
+      easy_install: name=pip
+
+    - name: install virtualenv
+      sudo: yes
+      pip: name={{ item }} state=present extra_args='--upgrade'
+      with_items:
+        - pip
+        - virtualenv
   handlers:
     - name: start nginx
       service: name=nginx state=started
