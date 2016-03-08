@@ -72,4 +72,9 @@ Vagrant.configure(2) do |config|
   # SHELL
 
   config.vm.provision "shell", path: "bootstrap.sh", privileged: false
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "playbook.yml"
+  end
 end
