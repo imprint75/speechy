@@ -19,14 +19,14 @@
 
     - name: install pip
       sudo: yes
-      easy_install: name=pip
+      easy_install: name=pip state=latest
 
-    - name: install virtualenv
-      sudo: yes
-      pip: name={{ item }} state=present extra_args='--upgrade'
-      with_items:
-        - pip
-        - virtualenv
+    - name: Install pip requirements
+      pip:
+        requirements: /srv/speechy/requirements.txt
+        virtualenv: /srv/speechy_env
+        virtualenv_python: python3.4
+
   handlers:
     - name: start nginx
       service: name=nginx state=started
