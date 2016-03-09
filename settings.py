@@ -13,7 +13,7 @@ define("debug", default=True, help="debug mode")
 tornado.options.parse_command_line()
 
 TEMPLATE_ROOT = path(ROOT, 'templates')
-
+UPLOAD_ROOT = path(ROOT, 'uploads')
 
 settings = dict()
 settings['debug'] = options.debug
