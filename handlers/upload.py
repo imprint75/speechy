@@ -5,6 +5,7 @@ import wave
 import logging
 
 from handlers.base import BaseHandler
+from lib import speech
 
 logger = logging.getLogger(__name__)
 
@@ -29,5 +30,7 @@ class UploadHandler(BaseHandler):
         with wave.open(file_path, 'r') as w:
             logger.info("***** WAV INFO *****")
             logger.info(w.getparams())
+
+        speech.listen(file_path)
 
         self.finish("file" + fname + " is uploaded")
