@@ -4,7 +4,7 @@
   sudo: yes
   tasks:
     - name: Installs nginx web server
-      apt: pkg=nginx state=installed update_cache=true
+      apt: pkg=nginx state=installed
       notify:
         - start nginx
 
@@ -27,6 +27,12 @@
         requirements: /srv/speechy/requirements.txt
         virtualenv: /srv/speechy_env
         virtualenv_python: python3.4
+
+    - name: Setup upstart
+      sudo: yes
+      command: cp /srv/speechy/confs/upstart /etc/init/speechy.conf
+
+    - file: path=/etc/init/speechy.conf owner=root group=root mode=0644
 
   handlers:
     - name: start nginx
