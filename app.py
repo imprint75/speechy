@@ -27,6 +27,12 @@ class App(tornado.web.Application):
 
 def main():
     app = App(url_patterns, **settings)
+    http_server_ssl = tornado.httpserver.HTTPServer(app, ssl_options={
+        "certfile": "/etc/ssl/certs/server.crt",
+        "keyfile": "/etc/ssl/certs/server.key",
+    })
+    http_server_ssl.listen(443)
+
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(options.port)
 

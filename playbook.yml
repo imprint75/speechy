@@ -4,9 +4,13 @@
   sudo: yes
   tasks:
     - name: Installs nginx web server
-      apt: pkg=nginx state=installed update_cache=true
+      apt: pkg=nginx state=installed
       notify:
         - start nginx
+
+    - name: create self-signed SSL cert
+      command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=${ansible_fqdn}" -days 3650 -keyout /etc/ssl/certs/server.key -out /etc/ssl/certs/server.crt -extensions v3_ca creates=/etc/ssl/certs/server.crt
+      notify: reload nginx
 
     - name: install python dev
       sudo: yes
@@ -27,6 +31,12 @@
         requirements: /srv/speechy/requirements.txt
         virtualenv: /srv/speechy_env
         virtualenv_python: python3.4
+
+    - name: Setup upstart
+      sudo: yes
+      command: cp /srv/speechy/confs/upstart /etc/init/speechy.conf
+
+    - file: path=/etc/init/speechy.conf owner=root group=root mode=0644
 
   handlers:
     - name: start nginx
