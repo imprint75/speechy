@@ -19,5 +19,5 @@ settings = dict()
 settings['debug'] = options.debug
 settings['port'] = options.port
 settings['cookie_secret'] = "as890fasd90f8asdf9a0-s982rhh"
-settings['xsrf_cookies'] = False
+settings['xsrf_cookies'] = True
 settings['template_loader'] = tornado.template.Loader(TEMPLATE_ROOT)
