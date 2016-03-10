@@ -1,26 +1,3 @@
-// todo: this demo need to be updated for Firefox.
-// it currently focuses only chrome.
-function PostBlob(audioBlob, videoBlob, fileName) {
-  var formData = new FormData();
-  formData.append('filename', fileName);
-  formData.append('audio-blob', audioBlob);
-  formData.append('video-blob', videoBlob);
-  // get the xsrf cookie if it exists
-  document.cookie.split(';').forEach(function(ele){
-    if (ele.split('=')[0] == '__utma') {
-      formData.append('_xsrf', ele.split('=')[1]);
-    }})
-  console.log('formData*************');
-  console.log(formData);
-  console.log('formData*************');
-  xhr('upload', formData, function(ffmpeg_output) {
-    document.querySelector('h1').innerHTML = ffmpeg_output.replace(/\\n/g, '<br />');
-    preview.src = 'uploads/' + fileName + '-merged.webm';
-    preview.play();
-    preview.muted = false;
-  });
-}
-
 var record = document.getElementById('record');
 var stop = document.getElementById('stop');
 var audio = document.querySelector('audio');
@@ -28,7 +5,29 @@ var recordVideo = document.getElementById('record-video');
 var preview = document.getElementById('preview');
 var container = document.getElementById('container');
 var isFirefox = !!navigator.mozGetUserMedia;
-var recordAudio, recordVideo;
+var recordAudio, recordVideo, fileName;
+
+function PostBlob(audioBlob, videoBlob, fileName) {
+  var formElement = $("#xsrf").serializeArray();
+  var formData = new FormData();
+  formData.append('filename', fileName);
+  formData.append(formElement[0]['name'], formElement[0]['value']);
+  formData.append('file1', audioBlob);
+  $.ajax({
+    url: '/upload',
+    cache: false,
+    contentType: false,
+    data: formData,
+    processData: false,
+    type: 'POST'
+  }).done(function(jqXHR, textStatus, errorThrown) {
+    console.log( "success" );
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+    console.log( "error" );
+  }).always(function(jqXHR, textStatus, errorThrown) {
+    console.log( "complete" );
+  });
+}
 
 record.onclick = function() {
   record.disabled = true;
@@ -62,7 +61,6 @@ record.onclick = function() {
   }
 };
 
-var fileName;
 stop.onclick = function() {
   document.querySelector('h1').innerHTML = 'Getting Blobs...';
   record.disabled = false;
@@ -80,14 +78,3 @@ stop.onclick = function() {
     });
   }
 };
-
-function xhr(url, data, callback) {
-  var request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
-    if (request.readyState == 4 && request.status == 200) {
-      callback(request.responseText);
-    }
-  };
-  request.open('POST', url);
-  request.send(data);
-}
