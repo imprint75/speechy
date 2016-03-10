@@ -5,26 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
-    <meta name="author" content="Muaz Khan">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" type="text/css" href="/static/record.css">
-    <!-- script used for audio/video/gif recording -->
     <script type="text/javascript" src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
 </head>
-<body style="text-align: center;">
-    <h1>
-        <a href="https://github.com/muaz-khan/WebRTC-Experiment/tree/master/RecordRTC">RecordRTC</a>
-    </h1>
+<body>
+    <h1>RecordRTC</h1>
     <section class="experiment">
         <p style="text-align: center;">
-            <video id="preview" controls style="border: 1px solid rgb(15, 158, 238); height: 240px; max-width: 100%; vertical-align: top; width: 320px;"></video>
+            <video id="preview" controls></video>
         </p>
 
         <button id="record">Record</button>
         <button id="stop" disabled>Stop</button>
 
-        <div id="container" style="padding: 1em 2em;"></div>
+        <div id="container"></div>
     </section>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
     <script type="text/javascript" src="/static/audio.js"></script>
