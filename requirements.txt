@@ -1,3 +1,5 @@
+backports-abc==0.4
+pocketsphinx==0.0.9
 -e git+git://github.com/jpercent/pyttsx.git@master#egg=pyttsx
 SpeechRecognition==3.3.3
 tornado==4.3
