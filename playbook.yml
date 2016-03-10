@@ -27,18 +27,6 @@
         - git
         - espeak
 
-    - name: Install pip requirements
-      pip:
-        requirements: /srv/speechy/requirements.txt
-        virtualenv: /srv/speechy_env
-        virtualenv_python: python3.4
-
-    - name: Setup upstart
-      sudo: yes
-      command: cp /srv/speechy/confs/upstart /etc/init/speechy.conf
-
-    - file: path=/etc/init/speechy.conf owner=root group=root mode=0644
-
     - name: Install Pkgs for CMU Sphinx
       sudo: yes
       apt: pkg={{ item }} state=present
@@ -53,6 +41,19 @@
     - name: Install CMU Sphinx & Pocketsphinx
       sudo: yes
       shell: /srv/speechy/bootstrap.sh
+
+    - name: Install pip requirements
+      pip:
+        requirements: /srv/speechy/requirements.txt
+        virtualenv: /srv/speechy_env
+        virtualenv_python: python3.4
+
+    - name: Setup upstart
+      sudo: yes
+      command: cp /srv/speechy/confs/upstart /etc/init/speechy.conf
+
+    - file: path=/etc/init/speechy.conf owner=root group=root mode=0644
+
 
   handlers:
     - name: start nginx
