@@ -5,7 +5,7 @@ import wave
 import logging
 
 from handlers.base import BaseHandler
-from libs import speech
+from recognizer import speech
 
 logger = logging.getLogger(__name__)
 
