@@ -14,9 +14,11 @@ tornado.options.parse_command_line()
 
 TEMPLATE_ROOT = path(ROOT, 'templates')
 UPLOAD_ROOT = path(ROOT, 'uploads')
+STATIC_ROOT = path(ROOT, 'static')
 
 settings = dict()
 settings['debug'] = options.debug
+settings['static_path'] = STATIC_ROOT
 settings['port'] = options.port
 settings['cookie_secret'] = "as890fasd90f8asdf9a0-s982rhh"
 settings['xsrf_cookies'] = True
