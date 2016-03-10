@@ -31,6 +31,5 @@ class UploadHandler(BaseHandler):
             logger.info("***** WAV INFO *****")
             logger.info(w.getparams())
 
-        speech.listen(file_path)
-
-        self.finish("file" + fname + " is uploaded")
+        transcript = speech.listen(file_path)
+        self.finish(transcript)
