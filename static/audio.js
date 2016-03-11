@@ -1,13 +1,11 @@
 var record = document.getElementById('record');
 var stop = document.getElementById('stop');
 var audio = document.querySelector('audio');
-var recordVideo = document.getElementById('record-video');
-var preview = document.getElementById('preview');
 var container = document.getElementById('container');
 var isFirefox = !!navigator.mozGetUserMedia;
-var recordAudio, recordVideo, fileName;
+var recordAudio, fileName;
 
-function PostBlob(audioBlob, videoBlob, fileName) {
+function PostBlob(audioBlob, fileName) {
   var formElement = $("#xsrf").serializeArray();
   var formData = new FormData();
   formData.append('filename', fileName);
@@ -21,7 +19,11 @@ function PostBlob(audioBlob, videoBlob, fileName) {
     processData: false,
     type: 'POST'
   }).done(function(jqXHR, textStatus, errorThrown) {
-    console.log( "success" );
+    document.querySelector('h1').innerHTML = 'RecordRTC';
+    console.log('Success! I think you said: ' + jqXHR);
+    var para = document.createElement("P");
+    para.appendChild(document.createTextNode(jqXHR));
+    document.querySelector('#recordedText').appendChild(para);
   }).fail(function(jqXHR, textStatus, errorThrown) {
     console.log( "error" );
   }).always(function(jqXHR, textStatus, errorThrown) {
@@ -31,6 +33,9 @@ function PostBlob(audioBlob, videoBlob, fileName) {
 
 record.onclick = function() {
   record.disabled = true;
+  if(window.stream){
+    delete window.stream;
+  }
   !window.stream && navigator.getUserMedia({
     audio: true,
     video: false
@@ -42,19 +47,13 @@ record.onclick = function() {
   });
   window.stream && onstream();
   function onstream() {
-    preview.src = window.URL.createObjectURL(stream);
-    preview.play();
-    preview.muted = true;
     recordAudio = RecordRTC(stream, {
       // bufferSize: 16384,
       onAudioProcessStarted: function() {
         if (!isFirefox) {
-          recordVideo.startRecording();
+          document.querySelector('h1').innerHTML = 'Recording...';
         }
       }
-    });
-    recordVideo = RecordRTC(stream, {
-      type: 'video'
     });
     recordAudio.startRecording();
     stop.disabled = false;
@@ -62,19 +61,14 @@ record.onclick = function() {
 };
 
 stop.onclick = function() {
-  document.querySelector('h1').innerHTML = 'Getting Blobs...';
   record.disabled = false;
   stop.disabled = true;
-  preview.src = '';
-  preview.poster = 'ajax-loader.gif';
   fileName = Math.round(Math.random() * 99999999) + 99999999;
   if (!isFirefox) {
     recordAudio.stopRecording(function() {
-      document.querySelector('h1').innerHTML = 'Got audio-blob. Getting video-blob...';
-      recordVideo.stopRecording(function() {
-        document.querySelector('h1').innerHTML = 'Uploading to server...';
-        PostBlob(recordAudio.getBlob(), recordVideo.getBlob(), fileName);
-      });
+      window.stream.getAudioTracks().forEach(function(track){track.stop();});
+      document.querySelector('h1').innerHTML = 'Got audio...';
+      PostBlob(recordAudio.getBlob(), fileName);
     });
   }
 };

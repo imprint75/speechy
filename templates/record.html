@@ -11,16 +11,14 @@
 </head>
 <body>
     <h1>RecordRTC</h1>
-    <section class="experiment">
-        <p style="text-align: center;">
-            <video id="preview" controls></video>
-        </p>
-
+    <div class="experiment">
+      <div>
         <button id="record">Record</button>
         <button id="stop" disabled>Stop</button>
-
+      </div>
+        <div id="recordedText"></div>
         <div id="container"></div>
-    </section>
+    </div>
     <form id="xsrf">
     {% module xsrf_form_html() %}
     </form>

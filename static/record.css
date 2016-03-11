@@ -50,3 +50,16 @@ button[disabled] {
     vertical-align: top;
     width: 320px;
 }
+
+#recordedText {
+    color: #000000;
+    # position: relative;
+    background-color: beige;
+    height: 300px;
+    # float: right;
+    # top: -260px;
+    # right: 200px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
