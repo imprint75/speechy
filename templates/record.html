@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RecordRTC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" type="text/css" href="/static/record.css">
+    <script type="text/javascript" src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+</head>
+<body>
+    <h1>RecordRTC</h1>
+    <section class="experiment">
+        <p style="text-align: center;">
+            <video id="preview" controls></video>
+        </p>
+
+        <button id="record">Record</button>
+        <button id="stop" disabled>Stop</button>
+
+        <div id="container"></div>
+    </section>
+    <form id="xsrf">
+    {% module xsrf_form_html() %}
+    </form>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="/static/audio.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+body,
+html {
+    background: black;
+    color: white;
+    text-align: center;
+}
+
+button,
+a {
+    background: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #fff), color-stop(100%, #eaeaea));
+    background: -webkit-linear-gradient(top, #fff, #eaeaea);
+    background: -moz-linear-gradient(top, #fff, #eaeaea);
+    background: -o-linear-gradient(top, #fff, #eaeaea);
+    background: linear-gradient(top, #fff, #eaeaea);
+    border: 1px solid white;
+    border-radius: 5px;
+    color: #4f4f4f;
+    padding: 8px 15px;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+button:hover,
+a:hover,
+button:active,
+a:active,
+button:focus,
+a:focus {
+    -moz-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    background: #303030;
+    border-color: white;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+button[disabled] {
+    background: transparent;
+    border-color: rgb(83, 81, 81);
+    color: rgb(139, 133, 133);
+}
+
+#container {
+    padding: 1em 2em;
+}
+#preview {
+    border: 1px solid rgb(15, 158, 238);
+    height: 240px;
+    max-width: 100%;
+    vertical-align: top;
+    width: 320px;
+}
