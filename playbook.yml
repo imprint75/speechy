@@ -54,6 +54,23 @@
       sudo: yes
       shell: /srv/speechy/bootstrap.sh
 
+    - name: Install pocketsphinx Python
+      pip:
+        name: pocketsphinx
+        version: 0.0.9
+        virtualenv: /srv/speechy_env
+
+    - name: Configure nginx
+      template: src={{item.src}} dest={{item.dest}}
+      with_items:
+        - { src: 'confs/nginx.conf', dest: '/etc/nginx/nginx.conf' }
+        - { src: 'confs/app.conf', dest: '/etc/nginx/sites-available/default' }
+      notify:
+        - restart nginx
+
   handlers:
     - name: start nginx
       service: name=nginx state=started
+
+    - name: restart nginx
+      service: name=nginx state=restarted
