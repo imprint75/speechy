@@ -35,9 +35,11 @@
 
     - name: Setup upstart
       sudo: yes
-      command: cp /srv/speechy/confs/upstart /etc/init/speechy.conf
+      template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+      with_items:
+        - { src: 'confs/upstart', dest: '/etc/init/speechy.conf' }
 
-    - file: path=/etc/init/speechy.conf owner=root group=root mode=0644
+    - command: ln -s /lib/init/upstart-job /etc/init.d/speechy
 
     - name: Install Pkgs for CMU Sphinx
       sudo: yes
