@@ -5,7 +5,7 @@ import wave
 import logging
 
 from handlers.base import BaseHandler
-from recognizer import speech
+from recognizer.speech import listen
 
 logger = logging.getLogger(__name__)
 
@@ -31,5 +31,5 @@ class UploadHandler(BaseHandler):
             logger.info("***** WAV INFO *****")
             logger.info(w.getparams())
 
-        transcript = speech.listen(file_path)
-        self.finish(transcript)
+        transcript = listen.delay(file_path)
+        self.finish(transcript.task_id)

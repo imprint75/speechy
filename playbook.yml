@@ -8,6 +8,9 @@
       notify:
         - start nginx
 
+    - name: Installs rabbitmq
+      apt: pkg=rabbitmq-server state=installed
+
     - name: create self-signed SSL cert
       command: openssl req -new -nodes -x509 -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=${ansible_fqdn}" -days 3650 -keyout /etc/ssl/certs/server.key -out /etc/ssl/certs/server.crt -extensions v3_ca creates=/etc/ssl/certs/server.crt
       notify: reload nginx
