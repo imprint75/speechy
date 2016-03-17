@@ -15,7 +15,7 @@ def listen(wav_file):
         text = ""
 
         try:
-            text = recognizer.recognize_sphinx(audio)
+            text = recognizer.recognize_google(audio)
             logger.info("Sphinx thinks you said " + text)
         except speech_recognition.UnknownValueError:
             logger.warn("Sphinx could not understand audio")
