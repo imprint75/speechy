@@ -11,7 +11,7 @@ speech_engine.setProperty('rate', 150)
 
 recognizer = speech_recognition.Recognizer()
 
-app = Celery('tasks', backend='amqp', broker='amqp://')
+app = Celery('recognizer.speech', backend='amqp', broker='amqp://')
 
 
 @app.task

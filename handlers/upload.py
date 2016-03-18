@@ -1,10 +1,11 @@
 import os
 import random
 import string
+import time
 import wave
 import logging
 
-from handlers.base import BaseHandler
+from handlers.base import BaseHandler, BaseWebSocketHandler
 from recognizer.speech import listen
 
 logger = logging.getLogger(__name__)
@@ -33,3 +34,14 @@ class UploadHandler(BaseHandler):
 
         transcript = listen.delay(file_path)
         self.finish(transcript.task_id)
+
+
+class StatusHandler(BaseWebSocketHandler):
+    def on_message(self, message):
+        logger.info(message)
+        task = listen.AsyncResult(message)
+        logger.info(task.status)
+        while not task.ready():
+            logger.info(task.status)
+            time.sleep(1)
+        self.write_message(task.get())
