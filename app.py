@@ -15,14 +15,15 @@ class App(tornado.web.Application):
     def __init__(self, url_patterns, **settings):
         self._url_patterns = url_patterns
         self._settings = settings
-        tornado.web.Application.__init__(self, self._url_patterns, **self._settings)
+        tornado.web.Application.__init__(self, self._url_patterns,
+                                         **self._settings)
 
     def show_config(self):
         debug = self._settings.get('debug', True)
 
         if debug:
             logger.info("***** Settings *****\n{}".format(self._settings))
-            logger.info("***** URL Patterns *****\n{}".format(self._url_patterns))
+            logger.info("*** URL Patterns ***\n{}".format(self._url_patterns))
 
 
 def main():

@@ -6,6 +6,21 @@ var progress = document.getElementById('progress');
 var isFirefox = !!navigator.mozGetUserMedia;
 var recordAudio, fileName;
 
+function pollForUpdates(taskId) {
+  var ws = new WebSocket("wss://192.168.33.103/status");
+  ws.onopen = function() {
+    ws.send(taskId);
+  };
+
+  ws.onmessage = function (evt) {
+    var p = document.createElement("P");
+    p.appendChild(document.createTextNode(evt.data));
+    document.querySelector('#recordedText').appendChild(p);
+    console.log(evt.data);
+    ws.close();
+  };
+}
+
 function sendFile(formData) {
   var xhr = new XMLHttpRequest();
   xhr.addEventListener("load", transferComplete);
@@ -16,27 +31,16 @@ function sendFile(formData) {
 }
 
 function transferComplete() {
-  setTimeout(function(){
-    progress.children[1].style.width = '50%';
-  }, 1000);
   document.querySelector('h1').innerHTML = 'RecordRTC';
-  var p = document.createElement("P");
-  p.appendChild(document.createTextNode(this.responseText));
-  document.querySelector('#recordedText').appendChild(p);
   progress.classList.toggle('hidden');
   progress.children[0].style.width = '0%';
-  progress.children[1].style.width = '0%';
+  pollForUpdates(this.responseText);
 }
 
 function updateProgress(oEvent) {
   if (oEvent.lengthComputable) {
-    var percentComplete = ((oEvent.loaded / oEvent.total) * 100) / 2;
+    var percentComplete = (oEvent.loaded / oEvent.total) * 100;
     progress.children[0].style.width = Math.ceil(percentComplete) + '%';
-    if (percentComplete == 50) {
-      setTimeout(function(){
-        progress.children[1].style.width = '10%';
-      }, 1000);
-    }
   } else {
     // Unable to compute progress information since the total size is unknown
     console.log( "updateProgress:: error..." );
